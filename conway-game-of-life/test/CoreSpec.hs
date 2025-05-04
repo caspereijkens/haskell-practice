@@ -3,7 +3,7 @@ import Test.Hspec
 import Test.QuickCheck
 import GameOfLife.Core
 import GameOfLife.Types 
-import Data.Array (listArray, (!), bounds)
+import Data.Array (bounds)
 import TestUtils (toListGrid, mkTestGrid)
 
 spec :: Spec

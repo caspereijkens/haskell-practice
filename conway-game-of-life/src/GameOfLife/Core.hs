@@ -31,14 +31,10 @@ countNeighbors cfg grid (y, x) =
       , not (dy == 0 && dx == 0) ]
 
     wrapX coord
-      | wrapEdges cfg = ((coord - minX) `mod` width) + minX
+      | wrapEdges cfg = coord `mod` width cfg
       | otherwise     = coord
     wrapY coord
-      | wrapEdges cfg = ((coord - minY) `mod` height) + minY
+      | wrapEdges cfg = coord `mod` height cfg
       | otherwise     = coord
 
-    inBounds (y', x') = y' >= minY && y' <= maxY && x' >= minX && x' <= maxX
-
-    ((minY, minX), (maxY, maxX)) = bounds grid
-    height = maxY - minY + 1
-    width  = maxX - minX + 1
+    inBounds (y', x') = y' >= 0 && y' <= (height cfg -1) && x' >= 0 && x' <= (width cfg -1)

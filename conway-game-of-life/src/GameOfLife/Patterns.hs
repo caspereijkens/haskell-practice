@@ -10,10 +10,6 @@ insertPatternAt :: Config -> Position -> Grid -> Grid -> Grid
 insertPatternAt cfg (px, py) pattern target = 
     target // updates
   where
-    ((minY, minX), (maxY, maxX)) = bounds target
-    height = maxY - minY + 1
-    width  = maxX - minX + 1
-
     ((_, _), (patternH, patternW)) = bounds pattern
 
     updates = [ (pos, pattern ! (y', x'))
@@ -21,10 +17,10 @@ insertPatternAt cfg (px, py) pattern target =
               , x <- [px .. px + patternW]
               , let y' = (y - py) `mod` (patternH + 1)
               , let x' = (x - px) `mod` (patternW + 1)
-              , let pos = ((y - minY) `mod` height + minY, (x - minX) `mod` width + minX)
+              , let pos = (y `mod` height cfg, x `mod` width cfg)
               , inBounds pos ]
 
-    inBounds (y, x) = y >= minY && y <= maxY && x >= minX && x <= maxX
+    inBounds (y, x) = y >= 0 && y <= (height cfg -1) && x >= 0 && x <= (width cfg -1)
 
 glider :: Grid
 glider = listArray ((0, 0), (2, 2))
