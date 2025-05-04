@@ -1,26 +1,22 @@
 module Main (main) where
 
--- Temporary minimal main for compilation
-main :: IO ()
-main = putStrLn "Game of Life (entry point disabled during development)"
-
-{-
--- Full version to restore later:
 import GameOfLife.Core
 import GameOfLife.Render
 import GameOfLife.Types
-import GameOfLife.Patterns  -- When ready
+import GameOfLife.Patterns
+
+import System.Console.ANSI (clearScreen)
+import Control.Concurrent (threadDelay)
 
 main :: IO ()
 main = do
   let config = Config 20 20 False
-      initialGrid = insertPattern glider (mkGrid config)
+  initialGrid <- insertRandomPatterns config (mkGrid config) 30
   runSimulation config initialGrid
 
 runSimulation :: Config -> Grid -> IO ()
 runSimulation cfg grid = do
+  clearScreen
   putStrLn $ render grid
-  putStrLn "Press Enter to continue..."
-  _ <- getLine
+  threadDelay 100000  -- 0.5 second delay
   runSimulation cfg (nextGen cfg grid)
--}
